@@ -71,10 +71,14 @@ def run(data, pages, order):
     print(f"Valid Count: {count} | Valid Total: {total}")
     print(f"Fixed Count: {fixCount} | Fixed Total: {fixTotal}")
 
-def disallow(num: int, data: dict[set]):
-
+def disallow(num: int, data: dict[set], depth):
+    print(num)
+    if depth == 100:
+        print("100 Deep. Exiting.")
+        exit()
+    
     memo = {}
-
+    # print(data)
     def apply(num, data):
         if num not in data:
             return set()
@@ -82,12 +86,14 @@ def disallow(num: int, data: dict[set]):
             return set()
         if num in memo:
             return memo[num]
-        
+
         dataSet = data[num]
         # print(data[num])
         dataAdd = set()
         for item in dataSet:
-            mySet = disallow(item, data)
+            #print(item)
+            
+            mySet = disallow(item, data, depth + 1)
             # print(item, mySet)
             dataAdd.update(mySet)
         dataAdd.update(dataSet)
@@ -132,10 +138,11 @@ def main():
         # print(ls)
     #print(rules)
     
-
+    for line in sorted(rules):
+        print(f"{line}: {rules[line]}")
     rules2 = {}
     for item in rules:
-        rules2[item] = disallow(item, rules)
+        rules2[item] = disallow(item, rules, 0)
         #print(rules2[item])
     #print(rules2)
     rules3 = rules2.copy()
