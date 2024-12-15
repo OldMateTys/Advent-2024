@@ -36,31 +36,68 @@ def run(data, pages, order):
 
     count = 0
     total = 0
+    fixCount = 0
+    fixTotal = 0
+    print(data)
     for page in pages:
-        page = set(page)
+        disallowed = set()
         
-
+        i = 0
+        valid = True
+        for num in page:
+            
+            if num in disallowed:
+                valid = False
+                break
+            if num not in data:
+                continue
+            disallowed.update(data[num])
         if valid:
             count += 1
             total += page[len(page) // 2]
-            #print(f"Added: {page} | Total: {total}")
-    # print(count)
+            print(f"Added: {page} | Total: {total}")
+        else:
+            new_order = deque()
+            page = set(page)
+            
+            for item in order:
+                if item in page:
+                    new_order.append(item)
+
+            print(new_order)
+            fixCount += 1
+            fixTotal += new_order[len(new_order) // 2]
+
+    print(f"Valid Count: {count} | Valid Total: {total}")
+    print(f"Fixed Count: {fixCount} | Fixed Total: {fixTotal}")
 
 def disallow(num: int, data: dict[set]):
-    if num not in data:
-        return set()
-    if len(data[num]) == 0:
-        return set()
-    
-    dataSet = data[num]
-    # print(data[num])
-    dataAdd = set()
-    for item in dataSet:
-        mySet = disallow(item, data)
-        # print(item, mySet)
-        dataAdd.update(mySet)
-    dataAdd.update(dataSet)
-    return dataAdd
+
+    memo = {}
+
+    def apply(num, data):
+        if num not in data:
+            return set()
+        if len(data[num]) == 0:
+            return set()
+        if num in memo:
+            return memo[num]
+        
+        dataSet = data[num]
+        # print(data[num])
+        dataAdd = set()
+        for item in dataSet:
+            mySet = disallow(item, data)
+            # print(item, mySet)
+            dataAdd.update(mySet)
+        dataAdd.update(dataSet)
+
+        memo[num] = dataAdd
+        return dataAdd
+
+    mySet = apply(num, data)
+    return mySet
+
 
 def main():
     
@@ -94,14 +131,19 @@ def main():
                 pages.append(ls)
         # print(ls)
     #print(rules)
+    
+
     rules2 = {}
     for item in rules:
         rules2[item] = disallow(item, rules)
         #print(rules2[item])
     #print(rules2)
+    rules3 = rules2.copy()
+    for item in rules3:
+        rules3[item] = rules3[item].copy()
     order = flatten(rules2, pages)
     print(order)
-    run(rules2, pages, order)
+    run(rules3, pages, order)
     
 
 if __name__ == "__main__":
