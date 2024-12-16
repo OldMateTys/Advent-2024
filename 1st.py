@@ -50,6 +50,7 @@ def main():
         if len(numsR) == 0:
             break
     print(f"Similarity Score: {total}")
+    print(min(False, 2))
 
     
 if __name__ == "__main__":
