@@ -6,8 +6,9 @@ def isValid(line, failCount, prev, increasing, decreasing, k):
         num = int(num)
         numSet = False
         if increasing:
+            print(f"Prev: {prev} | Num: {num}")
             if num <= prev or num > prev + 3:
-
+                
                 if i == len(line) - 1:
                     print(f"Failed        {k}:  {num} in {line}")
                     failCount += 1
@@ -27,14 +28,27 @@ def isValid(line, failCount, prev, increasing, decreasing, k):
                     if failCount > 1:
                         increasing = False
                         break
-                    
+
                 else:
-                    print('here')
-                    increasing = False
-                    break
+                    twoCheck = False
+                    if i >= 2:
+                        
+                        twoBack = int(line[i-2])
+                        if twoBack < num and num <= twoBack + 3:
+                            failCount += 1
+                            twoCheck = True
+                            print('here')
+                            print(f"Failed        {k}:  {num} in {line}")
+                            if failCount > 1:
+                                increasing = False
+                                break
+                    
+                    if not twoCheck:
+                        increasing = False
+                        break
         if decreasing:
             if num >= prev or num < prev - 3:
-                print(num, failCount)
+                #print(num, failCount)
 
                 if i == len(line) - 1:
                     print(f"Failed        {k}:  {num} in {line}")
@@ -57,10 +71,23 @@ def isValid(line, failCount, prev, increasing, decreasing, k):
                         break
 
                 else:
-                    decreasing = False
-                    break
+                    twoCheck = False
+                    if i >= 2:
+                        twoBack = int(line[i-2])
+                        if twoBack > num and num >= twoBack - 3:
+                            failCount += 1
+                            twoCheck = True
+                            print(f"Failed        {k}:  {num} in {line}")
+                            if failCount > 1:
+                                decreasing = False
+                                break
+                    if not twoCheck:
+                        decreasing = False
+                        break
         if not numSet:
             prev = num
+        
+
     return increasing or decreasing
 
 def run(data):
@@ -70,7 +97,7 @@ def run(data):
 
         increasing = False
         decreasing = False
-
+        print(f"Testing: {line}")
         first  = int(line[0])
         second = int(line[1])
         penult = int(line[-2])
@@ -103,18 +130,19 @@ def run(data):
             increasing = True
         elif first > penult:
             decreasing = True
-        print(first)
+        #print(first)
         valid3 = isValid(ls_left, 1, first, increasing, decreasing, k)
 
-        print(valid1, valid2, valid3)
+        #print(valid1, valid2, valid3)
         if valid1 or valid2 or valid3:
             count += 1
             print(f"Adding Line:  {k}: {line}")
         else:
             print(f"Skipped Line: {k}: {line}")
-        
+        print()
+        # input()
         if len(line) <= 5:
-            #print(line)
+
             pass                 
         
     print(count)
