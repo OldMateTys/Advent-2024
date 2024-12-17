@@ -148,7 +148,7 @@ class Solution:
                 self.loopCheck = [0, 0, 0, 0]
                 self.route[i][j] = "."
                 self.route[start_y][start_x] = "^"
-
+                
                 print(f"Progress: {j + len(self.route[0] * i)} / {total_count}")
                 
 

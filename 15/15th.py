@@ -1,9 +1,8 @@
 import math
 from collections import deque
 import time
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib.animation as anim
+import sys
+
 
 class Robot:
     def __init__(self, x, y):
@@ -16,6 +15,7 @@ class Robot:
             return False
         if map[y][x] == ".":
             return True
+        
         
         match direction:
             case 0:
@@ -75,8 +75,9 @@ class Robot:
             case 3:
                 return self.setAhead(map, x-1, y, direction) 
             
-    def setAhead2(self, map, newMap, x, y, direction, prev):                                        
-        
+    def setAhead2(self, map, newMap, x, y, direction, prev):       
+        # printBoard(map)                                 
+        # input()
         match direction:
             case 1 | 3:
                 if map[y][x] == ".":
@@ -92,38 +93,54 @@ class Robot:
                         self.setAhead2(map, newMap, x-1, y, direction, "") 
             case 0 | 2:
                 
-                # print(newMap)
-                if newMap[y][x] == ".":
-                    map[y][x] = prev
-                    return
-                
-                side = newMap[y][x]
                 i = -1 if direction == 0 else 1
+                ls = [{(self.x, self.y)}]
+
+                
+                while True:
+                    
+
+
+                    next = map[y+i][x]
+                    new_ls = set()
+                    for item in ls[-1]:
+                        x, y = item
+                        next = map[y+i][x]
+                        match next:
+                            case "]":
+                                new_ls.update({(x, y+i), (x-1, y+i)})
+                            case "[":
+                                new_ls.update({(x, y+i), (x+1, y+i)})
+                            case "#":
+                                return
+                        # printBoard(map)
+                        # print(ls)
+                        
+                    
+                    if len(new_ls) == 0:
+                        break
+                    # print('here')
+                    ls.append(new_ls)
+                # print(ls)
+
+                for item in ls[::-1]:
+                    for x, y in list(item):
+                        # printBoard(map)
+                        current = map[y][x]
+                        if current == "@":
+                            continue
+                        map[y+i][x] = current
+                        map[y][x] = '.'
+                # printBoard(map)
+                ls = []
+                
+                # print(newMap)
+                next = newMap[y+i][x]
+                current = newMap[y][x]
+
                 # print(f"Recursing. Current: '{side}' at ({x}, {y}")
                 # printBoard(map)
-                match side:
-                    case "@":
-                        if newMap[y+i][x] == "[":
-                            self.setAhead2(map, newMap, x, y+i, direction, ".")
-                            self.setAhead2(map, newMap, x+1, y+i, direction, ".")
-                        elif newMap[y+i][x] == "]":
-                            self.setAhead2(map, newMap, x, y+i, direction, ".")
-                            self.setAhead2(map, newMap, x-1, y+i, direction, ".")
-                        else:
-                            self.setAhead2(map, newMap, x, y+i, direction, ".")
-                    case "[":
-                        if newMap[y-i][x] == "]":
-                            map[y][x+1] = "."
-                        self.setAhead2(map, newMap, x  , y+i, direction, "[")
-                        self.setAhead2(map, newMap, x+1, y+i, direction, "]")
-                    case "]":
-                        if newMap[y-i][x] == "[":
-                            map[y][x-1] = "."
-                        self.setAhead2(map, newMap, x  , y+i, direction, "]")
-                        self.setAhead2(map, newMap, x-1, y+i, direction, "[")
                 
-                map[y][x] = prev
-
         
     def move(self, map, direction):
         map[self.y][self.x] = "."
@@ -215,14 +232,14 @@ def run2(robot, map, instructions):
         # print(f"Clear to move: {tf}")
         newMap = copyMap(map)
         # print(newMap)
-
+        #ard(map)  
+        # print(f"Moved: {moving}")
         if tf:
             robot.setAhead2(map, newMap, robot.x, robot.y, direction, ".")
             robot.move(map, direction)
 
-            # printBoard(map)
             
-        # print(f"Moved: {moving}")
+
         # printBoard(map)
 
 
@@ -238,22 +255,6 @@ def run2(robot, map, instructions):
     print(total)   
 
 
-def convertMap(map):
-    img = deque()
-    for line in map:
-        linels = deque()
-        for char in line:
-            match char:
-                case "#":
-                    linels.append(0)
-                case ".":
-                    linels.append(1)
-                case "[" | "]":
-                    linels.append(2)
-                case "@":
-                    linels.append(3)
-        img.append(linels)
-    return np.array(img)
 def main():
     
     map = []

@@ -22,7 +22,7 @@ def doesLineExist(i, j, increment, side, board, visited, letter, vert):
             if j > 0:
                 if board[i][j-1] != letter:
                     if visited[i][j]:
-                        print('visited')
+                        # print('visited')
                         return True
                 else:
                     return False
@@ -126,7 +126,7 @@ def recur(i, j, board, visited, letter, previous) -> tuple[int]:
             area, per = area + newArea, per + newPer
     if i < len(board)-1:
         if not visited[i+1][j] and board[i+1][j] == letter:
-            print('Recurring')
+            # print('Recurring')
             newArea, newPer = recur(i+1, j, board, visited, letter, (i, j))
             area, per = area + newArea, per + newPer
     if j < len(board[0])-1:
@@ -170,10 +170,10 @@ def main():
         for j in range(len(board[0])):
             if not visited[i][j]:
                 area, perimeter = recur(i, j, board, visited, board[i][j], (None, None))
-                print(f"{board[i][j]}: Area={area} | Perimeter={perimeter}")
+                #print(f"{board[i][j]}: Area={area} | Perimeter={perimeter}")
                 total_cost += area*perimeter
 
-    print(total_cost)
+    print(f"Total cost: {total_cost}")
 
 
     # print(board)

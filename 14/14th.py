@@ -19,7 +19,7 @@ def main():
 
     width, length = 101, 103
     robots = deque()
-    with open('robots.txt', 'r') as file:
+    with open('tree.txt', 'r') as file:
         lines = file.readlines()
 
         for line in lines:

@@ -35,7 +35,7 @@ class Solution():
             
             print()
 
-        print(total_tokens)
+        print(f"Final token count: {int(total_tokens)}")
         print()
 
 
@@ -47,7 +47,7 @@ class Solution():
 def main():
     print('data')
     data = deque()
-    with open('text.txt', 'r') as file:
+    with open('prizes.txt', 'r') as file:
         
         lines = file.readlines()
         i = 0
