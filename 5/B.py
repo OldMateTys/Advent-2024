@@ -1,75 +1,66 @@
 from collections import deque
 
-def flatten(data, pages):
-    ls = deque(sorted(data))
-    output = deque()
-    #print(ls)
-    while len(ls) > 0:
-        
-        first_num = 0
-        for num1 in ls.copy():
-            found = False
-            for num2 in ls.copy():
-                if num1 == num2:
+def fix(rules, pages):
+    total = 0
+    for page in pages:
+        dict = {x: rules[x] for x in page}
+        order = flatten(dict)
+        new_ls = deque()
+        for num in order:
+            if num in page:
+                new_ls.append(num)
+        #print(new_ls)
+        total += new_ls[len(new_ls) // 2]
+    print(f"Total: {total}")
+
+def flatten(rules):
+
+    ls = deque([])
+    while len(rules) > 0:
+        numRemove = 0
+        for key1 in rules:
+            valid = True
+            for key2 in rules:
+                if key1 == key2:
                     continue
-
-                if num1 in data[num2]:
-                    found = True
-            
-            if not found:
-                first_num = num1
+                if key1 in rules[key2]:
+                    
+                    valid = False
+                    break
+                    
+            if valid:   
+                numRemove = key1
                 break
-        output.append(first_num)
-        # print(first_num, data)
-        for item in data:
-            if first_num in data[item]:
-                data[item].remove(first_num)
-        # print(ls)
-        del data[first_num]
-        ls.remove(first_num)
-        
-    # print(output)
-    return list(output)[::-1]
+        for key in rules:
+            if numRemove in rules[key]:
+                rules[key].remove(numRemove)
+        del rules[numRemove]
+        ls.appendleft(numRemove)
+    #print(ls)
+    return ls
 
-
-def run(data, pages, order):
+def run(rules, pages):
 
     count = 0
     total = 0
     fixCount = 0
     fixTotal = 0
-    print(data)
-    for page in pages:
-        disallowed = set()
+    banSet = set()
+    ls = deque()
+    for i, page in enumerate(pages):
         
-        i = 0
+        banSet = set()
         valid = True
         for num in page:
-            
-            if num in disallowed:
+            if num in banSet:
                 valid = False
                 break
-            if num not in data:
-                continue
-            disallowed.update(data[num])
-        if valid:
-            count += 1
-            total += page[len(page) // 2]
-            print(f"Added: {page} | Total: {total}")
-        else:
-            new_order = deque()
-            page = set(page)
-            
-            for item in order:
-                if item in page:
-                    new_order.append(item)
+            banSet.update(rules[num])
+        if not valid:  
+            ls.append(page)
 
-            print(new_order)
-            fixCount += 1
-            fixTotal += new_order[len(new_order) // 2]
-
-    print(f"Valid Count: {count} | Valid Total: {total}")
-    print(f"Fixed Count: {fixCount} | Fixed Total: {fixTotal}")
+    # print(ls)
+    return ls
 
 def disallow(num: int, data: dict[set], depth):
     print(num)
@@ -141,16 +132,9 @@ def main():
     for line in sorted(rules):
         print(f"{line}: {rules[line]}")
     rules2 = {}
-    for item in rules:
-        rules2[item] = disallow(item, rules, 0)
-        #print(rules2[item])
-    #print(rules2)
-    rules3 = rules2.copy()
-    for item in rules3:
-        rules3[item] = rules3[item].copy()
-    order = flatten(rules2, pages)
-    print(order)
-    run(rules3, pages, order)
+
+    broken = run(rules, pages)
+    fix(rules, broken)
     
 
 if __name__ == "__main__":
