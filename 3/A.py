@@ -5,7 +5,7 @@ def main():
     
     nums = []
 
-    with open('mults.txt', 'r') as file:
+    with open('A_mults.txt', 'r') as file:
     
         nums = [tuple([int(y) for y in x[1:-1].split(",")]) for x in [line.strip() for line in file.readlines()]]
         total = 0

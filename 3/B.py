@@ -5,7 +5,7 @@ def main():
     
     nums = []
 
-    with open('mults.txt', 'r') as file:
+    with open('B_mults.txt', 'r') as file:
     
         enabled = True
 
