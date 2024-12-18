@@ -15,12 +15,9 @@ class Solution:
         trails = 0
         for i in range(len(map)):
             for j in range(len(map[0])):
-                # # print(f"i: {i} | j: {j}")
                 new_count = self.dfs(i, j, -1, '')
-                # # print(f"Path count: {new_count}")
                 trails += new_count
                 self.reset_visited()
-        print(trails)
     
     def reset_visited(self):
         for i in range(len(self.visited)):
@@ -37,22 +34,20 @@ class Solution:
             return 0
         
         num = int(self.map[i][j])
+        
         if num != prev + 1:
             return 0
         
-
         if num == 9:
             return 1
         
         path_count = 0
         
-        # print(f"Current: ({i}, {j}) | Number: {num} | Direction: {direction}")
         path_count += self.dfs(i+1, j  , num, 'down')
         path_count += self.dfs(i-1, j  , num, 'up')
         path_count += self.dfs(i  , j-1, num, 'left')
         path_count += self.dfs(i  , j+1, num, 'right')
 
-        # print(f"Current: ({i}, {j}) | Number: {num} | Path count: {path_count}")
         return path_count
         
         

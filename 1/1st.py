@@ -22,9 +22,7 @@ def main():
                     numsR.append(num)
     
     numsL = deque(sorted(numsL))
-    # print(numsL)
     numsR = deque(sorted(numsR))
-    # print(numsR)
     nums = deque()
     total = 0
     found = {}
@@ -32,7 +30,6 @@ def main():
         numL = numsL.popleft()
         
         if numL in found:
-            print(f"Num: {numL} | Overlap: {overlap} | Score: {score} | Total: {total}")
             total += found[numL]
             continue
 
@@ -45,12 +42,10 @@ def main():
                 break
         score = numL * overlap
         total += score
-        print(f"Num: {numL} | Overlap: {overlap} | Score: {score} | Total: {total}")
         found[numL] = numL * overlap
         if len(numsR) == 0:
             break
     print(f"Similarity Score: {total}")
-    print(min(False, 2))
 
     
 if __name__ == "__main__":

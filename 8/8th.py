@@ -10,7 +10,6 @@ class Solution:
         self.node = node
 
     def recur(self, i, j, i_incremenet, j_increment, letter):
-        # print(f"- Location: ({j}, {i}) | Letter: {letter}")
         
         if i < 0 or i >= len(self.map):
             return
@@ -42,14 +41,9 @@ class Solution:
                     antennas[letter].append((i, j))
                 else:
                     antennas[letter] = [(i, j)]
-        # print('here')
         for item in antennas:
-            # print(item)
-            # print(antennas)
             for i in range(len(antennas[item])):
                 for j in range(len(antennas[item])):
-                    # print(item)
-                    # print(antennas[item])
 
                     location_1 = antennas[item][i]
                     location_2 = antennas[item][j]
@@ -71,25 +65,21 @@ class Solution:
                     y_top = min(y_1, y_2)
 
                     letter = item
-                    # print(antennas[item])
                     print(f"i: {i} | j: {j} | item: {item}")
                     if (x_1 > x_2 and y_1 > y_2) or (x_2 > x_1 and y_2 > y_1):
 
-                        # print(f"Recurring: ({x_left, y_top}) | Up-Left | Letter: {letter}")
                         self.recur(y_top - y_dist, x_left - x_dist, -y_dist, -x_dist, letter)
 
                         self.node[y_bot][x_right] = True if self.checkBoundaries(y_top - y_dist, x_left - x_dist) else self.node[y_bot][x_right]
                         self.node[y_top][x_left] = True if self.checkBoundaries(y_top - 2*y_dist, x_left - 2*x_dist) else self.node[y_top][x_left]
                         
                         
-                        # print(f"Recurring: ({x_right, y_bot} | Down-Right) | Letter: {letter}")
                         self.recur(y_bot + y_dist, x_right + x_dist, y_dist, x_dist, letter)  
 
                         self.node[y_top][x_left]  = True if self.checkBoundaries(y_bot + y_dist, x_right + x_dist) else self.node[y_top][x_left]
                         self.node[y_bot][x_right] = True if self.checkBoundaries(y_bot + 2*y_dist, x_right + 2*x_dist) else self.node[y_bot][x_right]
 
                     else:
-                        # print(f"Recurring: ({x_right, y_top}) | Up-Right | Letter: {letter}")
 
                         self.recur(y_top - y_dist, x_right + x_dist, -y_dist, x_dist, letter)
 
@@ -97,7 +87,6 @@ class Solution:
                         self.node[y_top][x_right] = True if self.checkBoundaries(y_top - 2*y_dist, x_right + 2*x_dist) else self.node[y_top][x_right]
 
 
-                        # print(f"Recurring: ({x_left, y_bot}) | Down-left | Letter: {letter}")
                         self.recur(y_bot + y_dist, x_left - x_dist, y_dist, -x_dist, letter)
                         self.node[y_top][x_right] = True if self.checkBoundaries(y_bot + y_dist, x_left - x_dist) else self.node[y_top][x_right]
                         self.node[y_bot][x_left] = True if self.checkBoundaries(y_bot + 2 * y_dist, x_left - 2 *x_dist) else self.node[y_bot][x_left]
@@ -118,9 +107,7 @@ class Solution:
             for letter in line:
                 
                 string += "#" if letter else "."
-            print(string)
         
-        print(count)
 
 def main():
     

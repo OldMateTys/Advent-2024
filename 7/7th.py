@@ -17,22 +17,17 @@ class Solution:
 
                 if self.recur(ls.copy(), 0, num):
                     total += num
-                    # print(f"Successful: {num}")
-                print(f"Progress: {i} / {len(self.nums)}")
-        print(total)
+        print(f"Total: {total}")
 
     def recur(self, ls: deque, total, target):
         
         
         if len(ls) == 0:
-            # # print(f"Total: {total} | Target: {target} | ls: {ls}")
             if total == target:
-                # # print("True returned")
                 return True
             return False
         new_ls = ls.copy()
         num = new_ls.popleft()
-        # print(f"Total: {total} | Next: {num} | Target: {target} | ls: {new_ls}")
 
         
         mult_total = total * num
@@ -61,14 +56,11 @@ def main():
     with open('math.txt', 'r') as file:
         lines = file.readlines()
         for line in lines:
-            # print(line)
             ls = line.strip().split(" ")
-            # print(ls)
             num_list = deque()
             target = 0
             for i, num in enumerate(ls):
                 if i == 0:
-                    # print(f"'{num[:-1]}'")
                   
                     target = int(num[:-1])
                     continue
@@ -78,7 +70,6 @@ def main():
             else:
                 nums[target].append(num_list)
     
-    # print(nums)
 
     s = Solution(nums)
     s.run()

@@ -34,12 +34,10 @@ def recur(i, j, direction, map, target, word):
 def run(map):
     
     word = tuple('XMAS')
-    print(word)
     count = 0
     for i, row in enumerate(map):
         for j, letter in enumerate(row):
             
-            # print(letter)
             count += sum(recur(i, j, r, map, "X", word) for r in range(8))
     print(count)
 

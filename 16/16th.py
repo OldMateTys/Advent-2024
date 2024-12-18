@@ -71,7 +71,7 @@ def dijkstras(map, start: Node, end: Node):
 
     queue = [(0, 0, 1, start)]
     heapq.heapify(queue)
-    print(queue)
+
     c = itertools.count(1, 1)
 
     dir = 1
@@ -144,14 +144,12 @@ def printBoard(map, start, end):
             if isinstance(char, Node):
                 string += "."
                 continue
-        print(string)
-    print()
+
 
 
 def run(map, nodeList, start: Node, end: Node):
 
     dist = dijkstras(map, start, end)
-    print(dist)
     current = end
     current: Node
     path = deque()
@@ -170,7 +168,6 @@ def run(map, nodeList, start: Node, end: Node):
 
     
     path_elements = set(end.path)
-    print(len(path_elements))
     prev = None
     iter = set(path_elements)
     for node in nodeList:
@@ -179,9 +176,7 @@ def run(map, nodeList, start: Node, end: Node):
     end.letter = "E"
     for node in path_elements:
         node.letter = "O"
-        #print(node.letter)
-    printBoard(map, start, end)
-    count = 0
+
     while len(iter) > 0:
         newSet = set()
         for node in iter:
@@ -226,20 +221,14 @@ def run(map, nodeList, start: Node, end: Node):
         end.letter = "E"
         for thing in path_elements:
             thing.letter = "O"
-            #print(node.letter)
-        printBoard(map, start, end)
                 
-
-    
-    # print(len(path_elements))
     for node in nodeList:
         node.letter = "."
     start.letter = "S"
     end.letter = "E"
     for node in path_elements:
         node.letter = "O"
-        #print(node.letter)
-    printBoard(map, start, end)
+
     print(len(path_elements) - 3)   ###### Ok look, The program misses some edge case which is clearly seen in the terminal visualisation, and I am happy to leave it
 
 
@@ -278,7 +267,6 @@ def main():
                     ls2.append(None)
             map.append(ls2)
 
-    printBoard(map, start, end)
     for i, line in enumerate(map):
         for j, spot in enumerate(line):
             if not isinstance(spot, Node):

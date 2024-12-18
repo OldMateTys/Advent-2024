@@ -32,28 +32,23 @@ class Robot:
         if map[y][x] == "#":
             return False
         if map[y][x] == ".":
-            # print('this')
             return True
         if direction == 2:
-            # print(map[y][x])
             pass
         match direction:
             case 0 | 2:
                 i = -1 if direction == 0 else 1
                 if map[y+i][x] == "]":
-                    # print(f"Calling below: ] at ({x}, {y})")
                     return (
                             self.checkAhead2(map, x  , y+i, direction) and
                             self.checkAhead2(map, x-1, y+i, direction)
                             )
                 elif map[y+i][x] == "[":
-                    # print(f"Calling below: [ at ({x}, {y})")
                     return (
                             self.checkAhead2(map, x  , y+i, direction) and
                             self.checkAhead2(map, x+1, y+i, direction)
                             )
                 else:
-                    # print('down')
                     return self.checkAhead2(map, x  , y+i, direction)
             case 1 | 3:
                 i = 1 if direction == 1 else -1
@@ -76,8 +71,6 @@ class Robot:
                 return self.setAhead(map, x-1, y, direction) 
             
     def setAhead2(self, map, newMap, x, y, direction, prev):       
-        # printBoard(map)                                 
-        # input()
         match direction:
             case 1 | 3:
                 if map[y][x] == ".":
@@ -113,33 +106,24 @@ class Robot:
                                 new_ls.update({(x, y+i), (x+1, y+i)})
                             case "#":
                                 return
-                        # printBoard(map)
-                        # print(ls)
                         
                     
                     if len(new_ls) == 0:
                         break
-                    # print('here')
                     ls.append(new_ls)
-                # print(ls)
 
                 for item in ls[::-1]:
                     for x, y in list(item):
-                        # printBoard(map)
                         current = map[y][x]
                         if current == "@":
                             continue
                         map[y+i][x] = current
                         map[y][x] = '.'
-                # printBoard(map)
                 ls = []
                 
-                # print(newMap)
                 next = newMap[y+i][x]
                 current = newMap[y][x]
 
-                # print(f"Recursing. Current: '{side}' at ({x}, {y}")
-                # printBoard(map)
                 
         
     def move(self, map, direction):
@@ -164,10 +148,8 @@ def copyMap(map):
 def printBoard(map):
     
     for i, line in enumerate(map):
-        #print(line)
         string = ""
         for j, char in enumerate(line):
-            #total += 100*i + j if char == "O" else 0
             string += char
         print(string)
     print()
@@ -195,7 +177,6 @@ def run1(robot, map, instructions):
 
     total = 0
 
-    #print(total)   
 
 def run2(robot, map, instructions):
     for i, line in enumerate(map):
@@ -228,31 +209,21 @@ def run2(robot, map, instructions):
                 moving = "down"
             case 3:
                 moving = "left"
-        # print(f"Moving {moving}.")
-        # print(f"Clear to move: {tf}")
+
         newMap = copyMap(map)
-        # print(newMap)
-        #ard(map)  
-        # print(f"Moved: {moving}")
+
         if tf:
             robot.setAhead2(map, newMap, robot.x, robot.y, direction, ".")
             robot.move(map, direction)
 
-            
-
-        # printBoard(map)
-
-
     total = 0
     for i, line in enumerate(map):
-        # print(line)
         string = ""
         for j, char in enumerate(line):
             total += 100*i + j if char == "[" else 0
-            string += char
-        print(string)
-    #print()
-    print(total)   
+
+    printBoard(map)
+    print(f"Total: {total}")   
 
 
 def main():
@@ -303,7 +274,6 @@ def main():
                 mapLine.append(".")
                 string += "@."
         map2.append(mapLine)
-        print(string)
     robot = Robot(x, y)
     run1(robot, map, instructions)
     run2(robot, map2, instructions)

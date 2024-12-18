@@ -69,7 +69,7 @@ def main():
         print(f"Iteration: {count}")
 
         time.sleep(0.2)
-        
+      
     halfWidth = width // 2
     print(halfWidth)
     halfLength = length // 2

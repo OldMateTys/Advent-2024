@@ -44,9 +44,9 @@ def blink(rocks: list) -> None:
         rock_memo = memo
     total = 0
     for rock in rock_memo:
-        # print(f"Rock: {rock} | Count: {rock_memo[rock]}")
         total += rock_memo[rock]
-    print(f"Total: {total}")
+
+    print(f"Total rocks: {total}")
     
 
 

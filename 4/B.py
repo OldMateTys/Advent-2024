@@ -39,12 +39,6 @@ def run(map):
             if letter == "A":
                 count += 1 if recur(i, j, map, ls) else 0
     
-    for line in ls:
-        string = ""
-        for item in line:
-            string += item
-        print(string)
-    print()
     print(f"Total count: {count}")    
 def main():
 
