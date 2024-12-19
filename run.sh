@@ -133,3 +133,14 @@ start=$(date '+%s%N')
 python B.py > /dev/null
 end=$(date '+%s%N')
 echo "Time: Day 18b - $((($end - $start) / 1000000))ms"
+
+cd ../19
+start=$(date '+%s%N')
+python A.py > /dev/null
+end=$(date '+%s%N')
+echo "Time: Day 19a - $((($end - $start) / 1000000))ms"
+
+start=$(date '+%s%N')
+python B.py > /dev/null
+end=$(date '+%s%N')
+echo "Time: Day 19b - $((($end - $start) / 1000000))ms"

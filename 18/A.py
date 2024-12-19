@@ -1,13 +1,5 @@
 from collections import deque
 
-class Node:
-    def __init__(self):
-        self.x = x
-        self.y = y
-        self.visited = False
-        self.parent = None
-        self.path = 0
-
 def check(x, y, dir, map):
     
     match dir:

@@ -1,13 +1,5 @@
 from collections import deque
 
-class Node:
-    def __init__(self):
-        self.x = x
-        self.y = y
-        self.visited = False
-        self.parent = None
-        self.path = 0
-
 def check(x, y, dir, map):
     
     match dir:
@@ -34,7 +26,6 @@ def printMap(map, found):
     newMap = [line.copy() for line in map]
     for item in found:
         x, y = item
-        # print(x, y)
         newMap[y][x] = "O"
     
     
@@ -44,15 +35,14 @@ def printMap(map, found):
             string += item
         print(string)
 
+
 def run(map, walls, i, lenWalls):
     
-
     queue = deque([(0, 0)])
     found = {(0, 0)}
     newQueue = deque()
     step = 0
     while True:
-        # print(queue)
         step += 1
         while len(queue) > 0:
 
@@ -60,10 +50,7 @@ def run(map, walls, i, lenWalls):
             
             x, y = queue.popleft()
             
-            # print(x, y)
             if x == 70 and y == 70:
-                #print()
-                #printMap(map, found)
                 print(f"Progress: {i} / {lenWalls} | {step-1} steps")
                 return True
 
@@ -73,37 +60,24 @@ def run(map, walls, i, lenWalls):
             right = check(x, y, 1, map)
             
             dirs = (up, down, left, right)
-            # print(dirs)
             newFound = set()
             newAppend = []
             for dir in dirs:
-                #print(f"Dir: {dir}")
                 if dir is None:
-                    # print(f"None. Next.")
                     continue
                 if dir in found:
-                    # print(f"Found. Next.")
                     continue
                 x, y = dir
                 if map[y][x] == "#":
-                    # print(f"Is a wall. Next.")
                     continue
-                # print(walls)
-                # exit()
                 newFound.add(dir)
                 newAppend.append(dir)
             newQueue.extend(newAppend)
-                #print('here')
             found.update(newFound)
-                # print(dirs)
-                # print(found)
-        # printMap(map, found)
-        # input()
-        # input()
+
         queue = newQueue
         
         newQueue = deque()
-        # print(queue)
 
         if len(queue) == 0:
             return False
@@ -148,14 +122,10 @@ def main():
             newMap[y][x] = "#"
             if i == mid:
                 break
-        # Copy new map
         if run(newMap, wallSet, mid, len(walls)):
             search = right
         else:
             search = left
   
    
-   
-    # run(newMap, wallSet)
-
 main()
